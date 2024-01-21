@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-kubernetes-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-kubernetes-app
+  template:
+    metadata:
+      labels:
+        app: my-kubernetes-app
+    spec:
+      containers:
+      - name: my-kubernetes-app
+        image: my-kubernetes-app:latest
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-kubernetes-app-service
+spec:
+  selector:
+    app: my-kubernetes-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
